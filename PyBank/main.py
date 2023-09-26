@@ -11,7 +11,7 @@ net_profit = 0
 current = 0
 last_amt = 0
 change = 0
-change_values = []
+change_total = 0
 max_increase_amount = 0
 max_increase_month = ''
 max_decrease_amount = 0
@@ -31,7 +31,7 @@ with open(budget_data_csv, 'r') as csvfile:
             
             current = float(row[1])
             change = last_amt - current
-            change_values.append(change)
+            change_total += change
             last_amt = float(row[1])
             
             if max_increase_amount < change:
@@ -41,9 +41,10 @@ with open(budget_data_csv, 'r') as csvfile:
                 max_decrease_amount = change
                 max_decrease_month = str(row[0])
         #WHY ISNT THE AVERAGE JUST THE FRICKIN AVERAGE THAT DONT MAKE SENSE
-            
+        #This still isnt returning right somehow send help
+    
+    average = change_total/(total_months-1)
 
-#print the results
 print("Financial Analysis")
 #now make it *cute*
 print(" ")
@@ -52,6 +53,21 @@ print(" ")
 print(f"Total Months: {total_months}")
 print(' ')
 print(f"Total: {net_profit}")
-#testy boiiis
-#print(max_decrease_amount, max_decrease_month)
-#print(max_increase_amount, max_increase_month)
+print(f"Average Change: {average}")
+print(f"Greatest Increase in Profits: {max_increase_month} {max_increase_amount}")
+print(f"Greatest Decrease in Profits: {max_decrease_month} {max_decrease_amount}")
+
+#open txt file to write to
+with open("output.txt", "a") as f:
+#print the results
+    print("Financial Analysis", file=f)
+#now make it *cute*
+    print(" ",file=f)
+    print("---------------------",file=f)
+    print(" ",file=f)
+    print(f"Total Months: {total_months}",file=f)
+    print(' ',file=f)
+    print(f"Total: {net_profit}",file=f)
+    print(f"Average Change: {average}",file=f)
+    print(f"Greatest Increase in Profits: {max_increase_month} {max_increase_amount}",file=f)
+    print(f"Greatest Decrease in Profits: {max_decrease_month} {max_decrease_amount}",file=f)
